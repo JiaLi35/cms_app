@@ -40,7 +40,7 @@
       </div>
 
       <div class="mt-4 d-flex justify-content-center gap-3">
-        <?php if (isset($_SESSION["user"])) : ?>
+        <?php if ( isUserLoggedIn() ) : ?>
         <a href="/logout" class="btn btn-link btn-sm">Logout</a>
         <a href="/dashboard" class="btn btn-link btn-sm">Access the Dashboard</a>
         <?php else : ?>

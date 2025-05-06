@@ -5,21 +5,14 @@ $email = $_POST["email"];
 $password = $_POST["password"];
 
 if ( empty($email) || empty($password) ){
-    echo "Please fill up all the fields";
+    $_SESSION["error"] = "Please fill up all the fields.";
+    // redirect to login page 
+    header("Location: /login");
+    exit; 
+
 } else {
-    // sql command
-    $sql = "SELECT * FROM users WHERE email = :email";
-
-    // prepare
-    $query = $database->prepare($sql);
-
-    // execute
-    $query->execute([
-        "email" => $email
-    ]);
-
     // fetching data 
-    $user = $query->fetch();
+    $user = getUserByEmail($email);
 
     if ( $user ){
         // verify password
@@ -27,14 +20,24 @@ if ( empty($email) || empty($password) ){
             // store user data in user session
             $_SESSION["user"] = $user;
 
-            header("Location: /");
+            // set success message 
+            $_SESSION["success"] = "Welcome back, " . $user["name"] . "!";
+
+            // redirect to dashboard
+            header("Location: /dashboard");
             exit;
 
         } else {
-            echo "Incorrect Password";
+            $_SESSION["error"] =  "Incorrect Password";
+            // redirect to login page 
+            header("Location: /login");
+            exit;
         }
     } else {
-        echo "This email does not exist";
+        $_SESSION["error"] = "This email does not exist";
+        // redirect to login page 
+        header("Location: /login");
+        exit;
     }
 
 }

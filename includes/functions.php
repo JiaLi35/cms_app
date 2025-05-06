@@ -14,3 +14,38 @@ function connectToDB(){
     
     return $database;
 }
+
+/* 
+    get user data by email
+    input: $email
+    output: $user
+*/
+function getUserByEmail($email){
+    // connect to database
+    $database = connectToDB();
+
+    // sql command
+    $sql = "SELECT * FROM users WHERE email = :email";
+
+    // prepare
+    $query = $database->prepare($sql);
+
+    // execute
+    $query->execute([
+        "email" => $email
+    ]);
+
+    // fetching data 
+    $user = $query->fetch();
+    
+    return $user;
+}
+
+/*
+    check if user is logged in
+    if user is logged in, return true
+    if user is not loogged in, return false
+*/
+function isUserLoggedIn(){
+    return isset($_SESSION["user"]);
+}

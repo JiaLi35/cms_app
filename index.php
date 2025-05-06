@@ -31,31 +31,31 @@ switch ($path) {
         break;
 
     case '/manage-users':
-        require "pages/manage_users.php";
+        require "pages/manage-users.php";
         break;
 
     case '/manage-users-add':
-        require "pages/manage_users_add.php";
+        require "pages/manage-users-add.php";
         break;
 
     case '/manage-users-edit':
-        require "pages/manage_users_edit.php";
+        require "pages/manage-users-edit.php";
         break;
 
     case '/manage-users-changepwd':
-        require "pages/manage_users_changepwd.php";
+        require "pages/manage-users-changepwd.php";
         break;
 
     case '/manage-posts':
-        require "pages/manage_posts.php";
+        require "pages/manage-posts.php";
         break;
 
     case '/manage-posts-add':
-        require "pages/manage_posts_add.php";
+        require "pages/manage-posts-add.php";
         break;
 
     case '/manage-posts-edit':
-        require "pages/manage_posts_edit.php";
+        require "pages/manage-posts-edit.php";
         break;
 
     default:

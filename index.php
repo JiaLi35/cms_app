@@ -1,12 +1,15 @@
-<?php
-// start the session
-session_start();
+<?php 
 
-// get server info
-$path = $_SERVER["REQUEST_URI"];
+    // start session
+    session_start();
 
-// require the functions file
+    // require the functions file
     require "includes/functions.php";
+
+    // figure out which path the user is on
+    $path = $_SERVER["REQUEST_URI"];
+    // remove all the query string from the url
+    $path = parse_url( $path, PHP_URL_PATH );
 
 switch ($path) {
     // pages routes: 
@@ -69,5 +72,40 @@ switch ($path) {
     
     case '/auth/signup':
       require "includes/auth/do_signup.php";
+      break;
+
+    // set up the action route for add user 
+    case '/post/add':
+      require "includes/post/add.php";
+      break;
+
+    // set up the action route for delete post 
+        case '/post/delete':
+      require "includes/post/delete.php";
+      break;
+
+    // set up the action route for edit post 
+        case '/post/edit':
+      require "includes/post/edit.php";
+      break;
+
+    // set up the action route for add user 
+    case '/user/add':
+      require "includes/user/add.php";
+      break;
+
+    // set up the action route for delete user 
+        case '/user/delete':
+      require "includes/user/delete.php";
+      break;
+
+    // set up the action route for edit user 
+    case '/user/update':
+      require "includes/user/update.php";
+      break;
+    
+    // set up the action route for edit user 
+    case '/user/changepwd':
+      require "includes/user/changepwd.php";
       break;
 }

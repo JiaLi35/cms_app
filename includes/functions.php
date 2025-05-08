@@ -49,3 +49,24 @@ function getUserByEmail($email){
 function isUserLoggedIn(){
     return isset($_SESSION["user"]);
 }
+
+// check if current user is an admin
+function isAdmin(){
+    // check if user session is set (active) or not 
+    if ( isset($_SESSION["user"]) ){
+        // check if user role is admin 
+        if ($_SESSION["user"]["role"] === "admin"){
+            return true;
+        } 
+
+    } 
+
+    return false; // still means else return false
+}
+
+// check if current user is an editor or admin
+function isEditor(){
+    return isset( $_SESSION["user"] ) && ( $_SESSION["user"]["role"] === "admin" || $_SESSION["user"]["role"] === "editor" ) ? true : false; 
+}
+
+

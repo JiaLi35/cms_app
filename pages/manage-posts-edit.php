@@ -47,8 +47,8 @@
           <div class="mb-3">
             <label for="post-content" class="form-label">Status</label>
             <select class="form-control" id="post-status" name="status">
-              <option value="pending" <?= ($post["status"] === "Pending Review" ? "selected" : ""); ?>>Pending Review</option>
-              <option value="publish" <?= ($post["status"] === "Publish" ? "selected" : ""); ?>>Publish</option>
+              <option value="Pending Review" <?= ($post["status"] === "Pending Review" ? "selected" : ""); ?>>Pending Review</option>
+              <option value="Publish" <?= ($post["status"] === "Publish" ? "selected" : ""); ?>>Publish</option>
             </select>
           </div>
           <div class="text-end">

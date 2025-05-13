@@ -12,7 +12,7 @@
   // TODO: 2.1
   $sql = "SELECT * FROM users";
   // TODO: 2.2
-  $query = $database->query( $sql );
+  $query = $database->prepare( $sql );
   // TODO: 2.3
   $query->execute();
   // TODO: 2.4

@@ -7,18 +7,45 @@
   // TODO: 1. connect to database
   $database = connectToDB();
   // TODO: 2. get all the users
-  // $user_id = $_SESSION["user"]["id"];
+  $user_id = $_SESSION["user"]["id"];
   // $user_id = 9;
 
   // TODO: 2.1
-  $sql = "SELECT * FROM posts";
+  /*
+    use ORDER BY to sort by column
+    use ASC to sort by ascending order (small to large)
+    use DESC to sort by descending order (large to small)
+  */
+
+  if (isEditor()){
+    $sql = "SELECT posts.*, users.name 
+            FROM posts 
+            JOIN users 
+            ON posts.user_id = users.id 
+            ORDER BY posts.id DESC";
+    
+    // TODO: 2.2
+    $query = $database->prepare( $sql );
   
-  // TODO: 2.2
-  $query = $database->query( $sql );
-  // TODO: 2.3
-  $query->execute([
-    // "user_id" => $user_id
-  ]);
+    // TODO: 2.3
+    $query->execute();
+  } else {
+    $sql = "SELECT posts.*, users.name 
+    FROM posts 
+    JOIN users 
+    ON posts.user_id = users.id 
+    WHERE posts.user_id = :user_id 
+    ORDER BY posts.id DESC";
+    
+    // TODO: 2.2
+    $query = $database->prepare( $sql );
+  
+    // TODO: 2.3
+    $query->execute([
+      "user_id" => $user_id
+    ]);
+  }
+    
   // TODO: 2.4
   $posts = $query->fetchAll();
 ?>
@@ -41,17 +68,18 @@
             <tr>
               <th scope="col">ID</th>
               <th scope="col" style="width: 40%;">Title</th>
+              <th scope="col">Author</th>
               <th scope="col">Status</th>
               <th scope="col" class="text-end">Actions</th>
             </tr>
           </thead>
           <tbody>
             <!-- write out posts -->
-            <?php foreach ($posts as $index => $post) : ?>
-              <?php if ( $post["user_id"] === $_SESSION["user"]["id"] || isEditor()) : ?>
+            <?php foreach ($posts as $post) : ?>
                 <tr>
-                  <th scope="row"><?= $index+1; ?></th>
+                  <th scope="row"><?= $post["id"]; ?></th>
                   <td><?= $post["title"]; ?></td>
+                  <td class="text-center"><?= $post["name"]; ?></td>
                     <!-- status color -->
                     <?php if($post["status"] === "Publish") : ?>
                       <td><span class="badge bg-success"><?= $post["status"]; ?></span></td>
@@ -59,13 +87,23 @@
                       <td><span class="badge bg-warning"><?= $post["status"]; ?></span></td>
                     <?php endif; ?>
                     <td class="text-end">
+                      <!-- buttons start -->
                       <div class="buttons">
+                        <?php if ($post["status"] === "Pending Review") : ?>
                         <a
-                          href="/post"
+                          href="/post?id=<?=$post["id"]?>"
+                          target="_blank"
+                          class="btn btn-primary btn-sm me-2 disabled"
+                          ><i class="bi bi-eye"></i>
+                        </a>
+                        <?php else : ?>
+                        <a
+                          href="/post?id=<?=$post["id"]?>"
                           target="_blank"
                           class="btn btn-primary btn-sm me-2"
                           ><i class="bi bi-eye"></i>
                         </a>
+                        <?php endif; ?>
                         <a
                           href="/manage-posts-edit?id=<?= $post["id"] ?>"
                           class="btn btn-secondary btn-sm me-2"
@@ -102,9 +140,9 @@
                         </div>
                         <!-- end of modal -->
                       </div>
+                      <!-- end of buttons -->
                     </td>
                   </tr>
-                <?php endif; ?>
               <?php endforeach; ?>
           </tbody>
         </table>

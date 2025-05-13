@@ -1,35 +1,45 @@
+<?php
+  // TODO: 1. connect to database
+  $database = connectToDB();
+  // TODO: 2. get all the users
+    // get id from the url 
+  $id = $_GET["id"];
+  // TODO: 2.1
+  $sql = "SELECT posts.*, users.name 
+            FROM posts 
+            JOIN users 
+            ON posts.user_id = users.id 
+            WHERE posts.id = :id";
+  // TODO: 2.2
+  $query = $database->prepare( $sql );
+  // TODO: 2.3
+  $query->execute([
+    "id" => $id
+  ]);
+  // TODO: 2.4 fetch
+  $post = $query->fetch(); // get only the first row of the match data
+?>
+
 <?php require "parts/header.php"; ?>
 
     <div class="container mx-auto my-5" style="max-width: 500px;">
-      <h1 class="h1 mb-4 text-center">Post 1</h1>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris purus
-        risus, euismod ac tristique in, suscipit quis quam. Vestibulum ante
-        ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae;
-        Vestibulum eget dapibus nibh. Pellentesque nec maximus odio. In pretium
-        diam metus, sed suscipit neque porttitor vitae. Vestibulum a mattis
-        eros. Integer fermentum arcu dolor, nec interdum sem tincidunt in. Cras
-        malesuada a neque ut sodales. Nulla facilisi.
-      </p>
+      <h1 class="h1 mb-4 text-center"><?= $post["title"]; ?></h1>
+      <h3 class="mb-4">By <?= $post["name"]; ?></h1>
+      <?php
+      /*
+        $content = "1,2,3,4,5";
+        $content_array = explode(",", $content);
+        $content_array = [1, 2, 3, 4, 5];
+      */
+      
+        // $content = $post["content"];  
+        // $content_array = explode("\n", $content);
+        // foreach($content_array as $paragraph){
+        //   echo "<p>$paragraph</p>";
+        // }
 
-      <p>
-        Phasellus sodales arcu quis felis sollicitudin vehicula. Aliquam viverra
-        sem ac bibendum tincidunt. Donec pulvinar id purus sagittis laoreet. Sed
-        aliquet ac nisi vehicula rutrum. Proin non risus et erat rhoncus
-        aliquet. Nam sollicitudin facilisis elit, a consequat arcu placerat eu.
-        Pellentesque euismod et est quis faucibus.
-      </p>
-
-      <p>
-        Curabitur sit amet nisl feugiat, efficitur nibh et, efficitur ex. Morbi
-        nec fringilla nisl. Praesent blandit pellentesque urna, a tristique nunc
-        lacinia quis. Integer semper cursus lectus, ac hendrerit mi volutpat sit
-        amet. Etiam iaculis arcu eget augue sollicitudin, vel luctus lorem
-        vulputate. Donec euismod eu dolor interdum efficitur. Vestibulum
-        finibus, lectus sed condimentum ornare, velit nisi malesuada ligula,
-        eget posuere augue metus et dolor. Nunc purus eros, ultricies in sapien
-        quis, sagittis posuere risus.
-      </p>
+        echo nl2br($post["content"]);
+      ?>
       <div class="text-center mt-3">
         <a href="/" class="btn btn-link btn-sm"
           ><i class="bi bi-arrow-left"></i> Back</a

@@ -29,7 +29,8 @@
       </div>
       <div class="card mb-2 p-4">
         <?php require "parts/message_error.php"; ?>
-        <form method="POST" action="/post/edit">
+        <form method="POST" action="/post/edit" enctype="multipart/form-data">
+          <!-- title update -->
           <div class="mb-3">
             <label for="post-title" class="form-label">Title</label>
             <input
@@ -40,10 +41,12 @@
               name="title"
             />
           </div>
+          <!-- content update -->
           <div class="mb-3">
             <label for="post-content" class="form-label">Content</label>
             <textarea class="form-control" id="post-content" rows="10" name="content"><?= $post["content"]; ?></textarea>
           </div>
+          <!-- status update -->
           <div class="mb-3">
             <label for="post-content" class="form-label">Status</label>
             <select class="form-control" id="post-status" name="status">
@@ -51,6 +54,15 @@
               <option value="Publish" <?= ($post["status"] === "Publish" ? "selected" : ""); ?>>Publish</option>
             </select>
           </div>
+          <!-- update image start -->
+          <div class="mb-3">
+            <label class="form-label">Image</label>
+            <div class="mb-3">
+              <img src="/<?= $post["image"]; ?>" class="img-fluid">
+            </div>
+            <input type="file" name="image" accept="image/*">
+          </div>
+          <!-- update image end -->
           <div class="text-end">
             <input type="hidden" value="<?= $post["id"] ?>" name="id">
             <button type="submit" class="btn btn-primary">Update</button>
